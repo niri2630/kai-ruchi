@@ -18,7 +18,38 @@ class Settings(BaseSettings):
     # --- Database ---
     # Local dev example : postgresql+psycopg2://postgres:postgres@localhost:5432/kairuchi
     # Neon / Supabase   : postgresql+psycopg2://user:pass@host/db?sslmode=require
-    DATABASE_URL: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/kairuchi"
+    #
+    # POSTGRES_URL is read as a fallback because that is the name the Vercel
+    # marketplace integrations inject. Either variable works.
+    DATABASE_URL: str = ""
+    POSTGRES_URL: str = ""
+
+    @property
+    def database_dsn(self) -> str:
+        """The connection string, with the driver and SSL settled.
+
+        Hosted providers hand out `postgres://` or `postgresql://` URLs, but
+        SQLAlchemy 2 needs the driver named explicitly, and managed Postgres
+        refuses plaintext connections. Normalising here means the raw value can
+        be pasted into either variable without editing.
+        """
+        raw = (self.DATABASE_URL or self.POSTGRES_URL).strip()
+        if not raw:
+            return "postgresql+psycopg2://postgres:postgres@localhost:5432/kairuchi"
+
+        for prefix in ("postgresql+psycopg2://", "postgresql+psycopg://"):
+            if raw.startswith(prefix):
+                break
+        else:
+            for prefix in ("postgresql://", "postgres://"):
+                if raw.startswith(prefix):
+                    raw = "postgresql+psycopg2://" + raw[len(prefix) :]
+                    break
+
+        is_local = "localhost" in raw or "127.0.0.1" in raw
+        if not is_local and "sslmode=" not in raw:
+            raw += ("&" if "?" in raw else "?") + "sslmode=require"
+        return raw
 
     # --- Auth ---
     SECRET_KEY: str = "change-me-in-production-please-use-a-long-random-string"

@@ -1,0 +1,13 @@
+# The virtualenv is built on Vercel from requirements.txt — never upload ours.
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local secrets and generated artefacts
+.env
+.env.local
+seed.sql
