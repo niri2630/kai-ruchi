@@ -3,6 +3,7 @@
 import { api } from "@/lib/api";
 import { useApi } from "@/lib/useApi";
 import Hero from "@/components/home/Hero";
+import KitchenClock from "@/components/home/KitchenClock";
 import {
   BestsellerGrid,
   CategoryTiles,
@@ -59,6 +60,11 @@ export default function HomePage() {
             ) : (
               <CategoryTiles categories={categories.data ?? []} />
             )}
+          </section>
+
+          {/* ------------------------------------------------ kitchen clock */}
+          <section className="mx-auto max-w-6xl px-6 pb-8 pt-8">
+            <KitchenClock />
           </section>
 
           <KolamDivider />
