@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kai Ruchi — Project Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=Baloo+Thambi+2:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --chilli:#e23e2e; --chilli-deep:#a81d16;
+    --turmeric:#f5a31a; --turmeric-deep:#c87708;
+    --leaf:#1e7a54; --leaf-deep:#0f4e34;
+    --indigo:#4b2e83; --rose:#e0457b;
+    --mallige:#fff6e9; --warm:#ffeed8;
+    --ink:#241209; --ash:#7c6553; --hair:#e8d6bf;
+  }
+  *{box-sizing:border-box}
+  @page{ size:A4; margin:16mm 14mm; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{
+    margin:0; font-family:"Instrument Sans",system-ui,sans-serif;
+    font-size:10.5pt; line-height:1.58; color:var(--ink); background:#fff;
+  }
+  h1,h2,h3,h4{ font-family:"Bricolage Grotesque",system-ui,sans-serif; font-weight:800; letter-spacing:-.025em; line-height:1.04; margin:0; }
+  p{margin:0 0 .75em}
+  a{color:var(--chilli-deep)}
+  code,.mono{ font-family:"Consolas","SF Mono",monospace; font-size:9pt; }
+  .wm{ font-family:"Baloo Thambi 2",sans-serif; font-weight:800; }
+
+  /* ---------- cover ---------- */
+  .cover{
+    page-break-after:always; height:257mm; display:flex; flex-direction:column;
+    justify-content:space-between; padding:18mm 16mm;
+    background:linear-gradient(150deg,var(--chilli-deep) 0%,var(--chilli) 38%,var(--turmeric) 100%);
+    color:var(--mallige); margin:-16mm -14mm;
+  }
+  .cover .eyebrow{ letter-spacing:.24em; text-transform:uppercase; font-size:8pt; font-weight:700; opacity:.8 }
+  .cover h1{ font-size:56pt; line-height:.86; margin:.2em 0 }
+  .cover .sub{ font-size:13pt; opacity:.9; max-width:120mm; line-height:1.5 }
+  .cover .meta{ display:flex; gap:10mm; flex-wrap:wrap; font-size:9pt; opacity:.85; border-top:1px solid rgba(255,246,233,.35); padding-top:6mm }
+  .cover .meta b{ display:block; font-size:11pt; opacity:1 }
+
+  /* ---------- structure ---------- */
+  section{ page-break-before:always; }
+  section:first-of-type{ page-break-before:avoid; }
+  .num{ font-family:"Bricolage Grotesque",sans-serif; font-weight:800; font-size:34pt; color:var(--turmeric); line-height:1; }
+  .shead{ display:flex; align-items:baseline; gap:5mm; border-bottom:2px solid var(--ink); padding-bottom:3mm; margin-bottom:6mm; }
+  .shead h2{ font-size:23pt; }
+  h3{ font-size:13pt; margin:6mm 0 2mm; color:var(--chilli-deep) }
+  h4{ font-size:11pt; margin:4mm 0 1.5mm; }
+
+  .lead{ font-size:11.5pt; color:var(--ink); border-left:3px solid var(--turmeric); padding-left:5mm; margin-bottom:6mm }
+
+  /* ---------- blocks ---------- */
+  .box{ background:var(--mallige); border:1px solid var(--hair); border-radius:4mm; padding:5mm 6mm; margin:4mm 0; page-break-inside:avoid }
+  .box.warn{ background:#fff3ef; border-color:#f3c6bd }
+  .box.tip{ background:#f0f8f4; border-color:#bfe0ce }
+  .box h4{ margin-top:0 }
+  .box .tag{ display:inline-block; font-size:7.5pt; font-weight:700; letter-spacing:.16em; text-transform:uppercase; padding:1mm 3mm; border-radius:99px; margin-bottom:2mm }
+  .tag.say{ background:var(--indigo); color:#fff }
+  .tag.warnt{ background:var(--chilli); color:#fff }
+  .tag.tipt{ background:var(--leaf); color:#fff }
+
+  pre{ background:var(--ink); color:var(--mallige); padding:4mm 5mm; border-radius:3mm; overflow:hidden;
+       font-family:"Consolas",monospace; font-size:8.6pt; line-height:1.5; white-space:pre-wrap; word-break:break-word; page-break-inside:avoid; margin:2mm 0 4mm }
+  pre .c{ color:#f5a31a }
+  kbd{ background:var(--warm); border:1px solid var(--hair); border-bottom-width:2px; border-radius:2mm; padding:.5mm 1.5mm; font-size:8.5pt; font-family:"Consolas",monospace }
+
+  table{ width:100%; border-collapse:collapse; margin:3mm 0 5mm; font-size:9.5pt; page-break-inside:avoid }
+  th{ text-align:left; background:var(--ink); color:var(--mallige); padding:2.5mm 3mm; font-size:8.5pt; letter-spacing:.06em; text-transform:uppercase }
+  td{ padding:2.5mm 3mm; border-bottom:1px solid var(--hair); vertical-align:top }
+  tr:nth-child(even) td{ background:#fffaf3 }
+
+  ul,ol{ margin:0 0 3mm; padding-left:5mm }
+  li{ margin-bottom:1.5mm }
+  .plain{ list-style:none; padding-left:0 }
+  .plain li{ padding-left:6mm; position:relative }
+  .plain li:before{ content:"◆"; position:absolute; left:0; color:var(--turmeric) }
+
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:4mm }
+  .card{ border:1px solid var(--hair); border-radius:3mm; padding:4mm; page-break-inside:avoid }
+  .card b{ display:block; margin-bottom:1mm; color:var(--chilli-deep) }
+
+  .qa{ page-break-inside:avoid; margin-bottom:5mm; border-left:3px solid var(--indigo); padding-left:5mm }
+  .qa .q{ font-weight:700; font-size:11pt; font-family:"Bricolage Grotesque",sans-serif; margin-bottom:1.5mm }
+  .qa .a{ color:#3a2318 }
+
+  .flow{ background:var(--ink); color:var(--mallige); border-radius:4mm; padding:6mm; margin:4mm 0; page-break-inside:avoid }
+  .flow ol{ padding-left:6mm; margin:0 }
+  .flow li{ margin-bottom:2.5mm }
+  .flow b{ color:var(--turmeric) }
+  .flow code{ color:#ffd699 }
+
+  .foot{ text-align:center; color:var(--ash); font-size:8.5pt; border-top:1px solid var(--hair); padding-top:4mm; margin-top:8mm }
+</style>
+</head>
+<body>
+
+<!-- ============================================ COVER -->
+<div class="cover">
+  <div>
+    <p class="eyebrow">College mini project · Full-stack e-commerce</p>
+    <h1>Kai<br>Ruchi</h1>
+    <p class="sub">A complete online shop for a homemade South Indian food business — and a plain-English explanation of every part of it.</p>
+  </div>
+  <div>
+    <p class="sub" style="font-size:11pt;margin-bottom:8mm">
+      <b class="wm" style="font-size:16pt">கை ருசி · ಕೈ ರುಚಿ</b><br>
+      <em>kai ruchi</em> — "hand-taste". The South Indian word for why the same
+      recipe tastes different depending on whose hands made it.
+    </p>
+    <div class="meta">
+      <div><span class="eyebrow">Frontend</span><b>Next.js 16</b></div>
+      <div><span class="eyebrow">Backend</span><b>FastAPI</b></div>
+      <div><span class="eyebrow">Database</span><b>PostgreSQL</b></div>
+      <div><span class="eyebrow">Migrations</span><b>Alembic</b></div>
+      <div><span class="eyebrow">Repository</span><b>github.com/niri2630/kai-ruchi</b></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ 1 -->
+<section>
+  <div class="shead"><span class="num">01</span><h2>What you have actually built</h2></div>
+
+  <p class="lead">Kai Ruchi is a working online shop. Not a design, not a mock-up — a
+  real one. You can browse products, search them, put them in a basket, make an
+  account, pay, and then watch your order move from "placed" to "delivered".</p>
+
+  <p>It sells the food a single home kitchen in Udupi makes: masalas, pickles, fresh
+  batters, fried snacks and sweets. Fourteen products across five categories.</p>
+
+  <h3>What a visitor can do</h3>
+  <ul class="plain">
+    <li><b>Browse</b> — a home page, five category pages, and a page for every product.</li>
+    <li><b>Search</b> — type a word and matching products appear instantly as you type.</li>
+    <li><b>Filter and sort</b> — by category, by how spicy it is, vegetarian or not, in stock or not, and by price or rating.</li>
+    <li><b>Add to a cart</b> — which works even before you log in, and follows you into your account when you do log in.</li>
+    <li><b>Make an account</b> — sign up, sign in, edit your details, save delivery addresses.</li>
+    <li><b>Check out and pay</b> — enter a delivery address and pay (on a simulated payment screen — see section 8).</li>
+    <li><b>Track the order</b> — a six-step timeline showing exactly where the parcel is.</li>
+    <li><b>Write reviews</b> — and reviews are marked "verified" automatically if that account really bought the product.</li>
+    <li><b>Contact the shop</b> — a contact form that saves the message into the database.</li>
+  </ul>
+
+  <div class="box tip">
+    <span class="tag tipt">Say this out loud</span>
+    <h4>The one-sentence description</h4>
+    <p style="margin:0">"It is a full-stack e-commerce web application. The frontend is built with
+    Next.js and React, the backend is a REST API built with FastAPI in Python, and the
+    data is stored in a PostgreSQL database with Alembic managing the schema changes."</p>
+  </div>
+
+  <h3>What it deliberately does <em>not</em> have</h3>
+  <p>There is <b>no admin dashboard</b>. That was a scope decision — it is a mini
+  project, not a business. Two consequences follow, and it is worth knowing them
+  because a teacher may well ask:</p>
+  <ul>
+    <li><b>Orders move on a timer.</b> A real shop has staff clicking "packed" and
+      "shipped". Here, once an order is paid, it walks itself along the tracking
+      timeline over about 35 minutes so it can be demonstrated live.</li>
+    <li><b>Products are added by editing a seed file</b> (<code>backend/app/seed.py</code>)
+      and re-running it, rather than through an admin screen.</li>
+  </ul>
+</section>
+
+<!-- ============================================ 2 -->
+<section>
+  <div class="shead"><span class="num">02</span><h2>The words you need to know</h2></div>
+  <p class="lead">Learn these ten and you can hold any conversation about this project.
+  Everything else is detail.</p>
+
+  <table>
+    <tr><th style="width:34mm">Word</th><th>What it actually means</th></tr>
+    <tr><td><b>Frontend</b></td><td>Everything the user sees and clicks — the pages, buttons, images, animations. It runs inside the visitor's browser.</td></tr>
+    <tr><td><b>Backend</b></td><td>The program running on a server that the frontend talks to. It does the thinking: checking passwords, calculating totals, saving orders. Nobody sees it.</td></tr>
+    <tr><td><b>Database</b></td><td>Where information is permanently stored — users, products, orders. If the server restarts, the database still remembers everything.</td></tr>
+    <tr><td><b>API</b></td><td>The list of things the frontend is allowed to ask the backend for. Like a restaurant menu: "give me all products", "add this to my cart".</td></tr>
+    <tr><td><b>Endpoint</b></td><td>One single item on that menu. For example <code>GET /api/products</code> means "give me the products".</td></tr>
+    <tr><td><b>REST</b></td><td>The common convention for designing those menus, using web addresses plus verbs — GET (fetch), POST (create), PATCH (change), DELETE (remove).</td></tr>
+    <tr><td><b>JSON</b></td><td>The text format the frontend and backend use to send information to each other. Looks like <code>{"name": "Mango Pickle", "price": 279}</code>.</td></tr>
+    <tr><td><b>Schema</b></td><td>The shape of the database — which tables exist and what columns they have.</td></tr>
+    <tr><td><b>Migration</b></td><td>A recorded change to that shape. Instead of editing the database by hand, you write a migration, so the change can be repeated on any computer.</td></tr>
+    <tr><td><b>Deploy</b></td><td>Putting the project on the internet so anyone can visit it, instead of only on your own laptop.</td></tr>
+  </table>
+
+  <h3>Two more that sound scary</h3>
+  <div class="grid2">
+    <div class="card"><b>JWT (JSON Web Token)</b>
+      When you log in, the backend gives your browser a long signed string. Your browser
+      sends it with every later request, which is how the server knows it is still you
+      without asking for your password again.</div>
+    <div class="card"><b>ORM (Object-Relational Mapper)</b>
+      A translator between Python code and database tables. Instead of writing SQL by
+      hand, you write <code>db.query(Product)</code> and the ORM — here, SQLAlchemy —
+      writes the SQL for you.</div>
+  </div>
+</section>
+
+<!-- ============================================ 3 -->
+<section>
+  <div class="shead"><span class="num">03</span><h2>The three pieces, and how they talk</h2></div>
+
+  <p class="lead">Every full-stack project is the same three boxes. Once you can draw
+  this on a whiteboard, you understand the architecture.</p>
+
+  <div class="flow">
+    <div style="text-align:center;font-family:'Consolas',monospace;font-size:9pt;line-height:2.1">
+      <b style="font-size:11pt">BROWSER</b> &nbsp;(the visitor's phone or laptop)<br>
+      <span style="color:#f5a31a">│</span><br>
+      <span style="opacity:.75">Next.js frontend — pages, buttons, animations</span><br>
+      <span style="color:#f5a31a">│</span><br>
+      <span style="opacity:.6">▼ &nbsp; asks for data over HTTPS, in JSON</span><br>
+      <span style="color:#f5a31a">│</span><br>
+      <b style="font-size:11pt">FASTAPI BACKEND</b> &nbsp;(a Python program on a server)<br>
+      <span style="opacity:.75">checks passwords · calculates totals · applies the rules</span><br>
+      <span style="color:#f5a31a">│</span><br>
+      <span style="opacity:.6">▼ &nbsp; reads and writes rows via SQLAlchemy</span><br>
+      <span style="color:#f5a31a">│</span><br>
+      <b style="font-size:11pt">POSTGRESQL DATABASE</b><br>
+      <span style="opacity:.75">users · products · carts · orders · reviews</span>
+    </div>
+  </div>
+
+  <h3>Why keep them separate?</h3>
+  <p>Because they have different jobs and different risks. The frontend can be
+  rewritten without touching the data. The backend enforces rules the browser cannot
+  be trusted with — a visitor could edit the page in their browser and set a price to
+  ₹1, but the backend recalculates the real price before saving the order, so it does
+  not matter.</p>
+
+  <div class="box">
+    <span class="tag say">Say this out loud</span>
+    <p style="margin:0">"The frontend never trusts its own numbers. When you check out, the
+    browser sends only the product IDs and quantities. The backend looks the real prices up
+    in the database and recalculates the total itself. That way the price cannot be tampered with."</p>
+  </div>
+
+  <h3>A real example: what happens when you click "Add to cart"</h3>
+  <div class="flow">
+    <ol>
+      <li>You click the green <b>+</b> button on a product card.</li>
+      <li>The frontend sends <code>POST /api/cart/items</code> with <code>{product_id: 5, quantity: 1}</code>.</li>
+      <li>The backend checks: <b>does this product exist? is it still in stock?</b> If there are only 3 left and you asked for 4, it refuses and sends back the message "Only 3 left in this batch."</li>
+      <li>If you are logged in, it finds the cart attached to your account. If not, it uses a random token stored in your browser, so guests get a cart too.</li>
+      <li>It saves the row, then recalculates the subtotal, the delivery fee (free over ₹799), and the total.</li>
+      <li>It sends the whole updated cart back as JSON.</li>
+      <li>The frontend updates the cart badge in the corner, pops the number, and shows a small toast saying "Mango Pickle added".</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================ 4 -->
+<section>
+  <div class="shead"><span class="num">04</span><h2>Every technology, and why it was chosen</h2></div>
+  <p class="lead">A teacher will almost certainly ask "why did you use X?" Here is a real
+  answer for each one, not just a description.</p>
+
+  <h3>Frontend</h3>
+  <table>
+    <tr><th style="width:36mm">Technology</th><th>What it does</th><th style="width:62mm">Why this one</th></tr>
+    <tr><td><b>Next.js 16</b></td><td>The React framework that gives us routing, page structure and the build system.</td><td>Every folder inside <code>src/app</code> automatically becomes a page — no routing to configure. It also deploys to Vercel with no setup.</td></tr>
+    <tr><td><b>React 19</b></td><td>Builds the interface out of reusable components.</td><td>A product card is written once and used on six different pages.</td></tr>
+    <tr><td><b>TypeScript</b></td><td>JavaScript with type checking.</td><td>If the backend returns a price as text and the code treats it as a number, the error is caught while writing, not by a user.</td></tr>
+    <tr><td><b>Tailwind CSS v4</b></td><td>Styling written as small class names directly on the element.</td><td>No separate stylesheet to keep in sync, and the design tokens (colours, fonts) live in one file.</td></tr>
+    <tr><td><b>Framer Motion</b></td><td>All the animation.</td><td>It can animate elements as they enter the screen and as they leave it — plain CSS cannot animate something that is being removed.</td></tr>
+    <tr><td><b>Lenis</b></td><td>Smooth scrolling.</td><td>Makes the page glide instead of jumping line by line, and lets other animations follow the scroll position smoothly.</td></tr>
+    <tr><td><b>Zustand</b></td><td>Holds shared state — who is logged in, what is in the cart.</td><td>The navbar and the cart page both need the cart. Zustand keeps one copy that both read from.</td></tr>
+  </table>
+
+  <h3>Backend</h3>
+  <table>
+    <tr><th style="width:36mm">Technology</th><th>What it does</th><th style="width:62mm">Why this one</th></tr>
+    <tr><td><b>FastAPI</b></td><td>The Python web framework that provides the API.</td><td>It generates interactive API documentation automatically — open <code>/docs</code> and every endpoint is listed and testable. Excellent to show a teacher.</td></tr>
+    <tr><td><b>SQLAlchemy 2</b></td><td>The ORM — talks to the database using Python objects.</td><td>Lets us write Python instead of raw SQL, and prevents SQL-injection attacks by design.</td></tr>
+    <tr><td><b>Pydantic v2</b></td><td>Validates every piece of incoming data.</td><td>If someone posts a review with a rating of 9, it is rejected before it ever reaches the database.</td></tr>
+    <tr><td><b>Alembic</b></td><td>Manages database migrations.</td><td>The schema history is recorded in files, so the exact same database can be rebuilt on any computer with one command.</td></tr>
+    <tr><td><b>bcrypt</b></td><td>Hashes passwords.</td><td>Passwords are never stored. Only a one-way scramble is saved, so even with the database, nobody can read them.</td></tr>
+    <tr><td><b>python-jose</b></td><td>Creates and verifies the JWT login tokens.</td><td>Signed with a secret key, so a token cannot be forged.</td></tr>
+  </table>
+
+  <h3>Database</h3>
+  <table>
+    <tr><th style="width:36mm">Technology</th><th>What it does</th><th style="width:62mm">Why this one</th></tr>
+    <tr><td><b>PostgreSQL</b></td><td>Stores all the data.</td><td>Free, extremely reliable, and supports proper relationships between tables, exact decimal money values, and enum types for order status.</td></tr>
+    <tr><td><b>Supabase</b></td><td>Hosts that PostgreSQL database online, free.</td><td>Needed because a database on your laptop is not reachable from the internet.</td></tr>
+  </table>
+</section>
+
+<!-- ============================================ 5 -->
+<section>
+  <div class="shead"><span class="num">05</span><h2>How the database is designed</h2></div>
+  <p class="lead">Nine tables. Every one exists for a reason, and the reasons are the
+  interesting part.</p>
+
+  <table>
+    <tr><th style="width:34mm">Table</th><th>Holds</th></tr>
+    <tr><td><b>users</b></td><td>Name, email, phone, and the hashed password.</td></tr>
+    <tr><td><b>addresses</b></td><td>Saved delivery addresses. One user can have many.</td></tr>
+    <tr><td><b>categories</b></td><td>The five shelves — masalas, pickles, fresh batters, snacks, sweets.</td></tr>
+    <tr><td><b>products</b></td><td>The fourteen items: name, price, stock, spice level, description, ingredients, photo.</td></tr>
+    <tr><td><b>carts</b></td><td>One open cart per user — or per guest, keyed by a random browser token.</td></tr>
+    <tr><td><b>cart_items</b></td><td>One row per product in a cart, with its quantity.</td></tr>
+    <tr><td><b>orders</b></td><td>A confirmed purchase: totals, payment status, and the delivery address.</td></tr>
+    <tr><td><b>order_items</b></td><td>What was actually in that order.</td></tr>
+    <tr><td><b>order_events</b></td><td>One row each time the order changes status. This is what the tracking timeline reads.</td></tr>
+    <tr><td><b>reviews</b></td><td>Star rating and text. One review per person per product.</td></tr>
+    <tr><td><b>contact_messages</b></td><td>Messages sent through the contact form.</td></tr>
+  </table>
+
+  <h3>Three design decisions worth explaining</h3>
+
+  <div class="box">
+    <span class="tag say">Say this out loud</span>
+    <h4>1. Why <code>order_items</code> copies the product name and price</h4>
+    <p style="margin:0">It looks like duplicated data, and it is deliberate. If the price of
+    Mango Pickle changes next month, a customer's old invoice must still show what they
+    actually paid. So the order stores its own copy. The same goes for the delivery
+    address — editing your saved address must not rewrite where a past parcel was sent.
+    This is called <b>snapshotting</b>.</p>
+  </div>
+
+  <div class="box">
+    <span class="tag say">Say this out loud</span>
+    <h4>2. Why there is a separate <code>order_events</code> table</h4>
+    <p style="margin:0">The order could just have a "status" column. But then you would only
+    know where it is <em>now</em>, not when it was packed or when it shipped. A separate
+    table with one row per change gives a full history, which is exactly what the
+    tracking timeline displays.</p>
+  </div>
+
+  <div class="box">
+    <span class="tag say">Say this out loud</span>
+    <h4>3. Why guests get a cart too</h4>
+    <p style="margin:0">Forcing people to sign up before they can add anything to a basket
+    loses sales. So a guest cart is stored against a random token in the browser. When
+    that person later signs in, the backend merges the guest cart into their account
+    cart instead of throwing it away.</p>
+  </div>
+
+  <h3>Relationships, in one line each</h3>
+  <ul class="plain">
+    <li>A <b>category</b> has many <b>products</b>. A product belongs to one category.</li>
+    <li>A <b>user</b> has many <b>addresses</b>, many <b>orders</b> and many <b>reviews</b>.</li>
+    <li>A <b>cart</b> has many <b>cart_items</b>; each points at one product.</li>
+    <li>An <b>order</b> has many <b>order_items</b> and many <b>order_events</b>.</li>
+    <li>A <b>review</b> joins one user to one product — and the database enforces that a person can only review a product once.</li>
+  </ul>
+</section>
+
+<!-- ============================================ 6 -->
+<section>
+  <div class="shead"><span class="num">06</span><h2>The API, endpoint by endpoint</h2></div>
+  <p class="lead">Thirty-six endpoints, grouped into nine files. You do not need to
+  memorise them — you need to know the pattern.</p>
+
+  <table>
+    <tr><th style="width:20mm">Method</th><th style="width:52mm">Address</th><th>What it does</th></tr>
+    <tr><td>POST</td><td><code>/api/auth/signup</code></td><td>Create an account, return a login token</td></tr>
+    <tr><td>POST</td><td><code>/api/auth/login</code></td><td>Sign in, return a login token</td></tr>
+    <tr><td>GET</td><td><code>/api/auth/me</code></td><td>Who am I? (requires the token)</td></tr>
+    <tr><td>GET</td><td><code>/api/categories</code></td><td>All five shelves, with product counts</td></tr>
+    <tr><td>GET</td><td><code>/api/products</code></td><td>Products, with filtering, sorting and paging</td></tr>
+    <tr><td>GET</td><td><code>/api/products/suggest</code></td><td>Type-ahead results for the search box</td></tr>
+    <tr><td>GET</td><td><code>/api/products/{slug}</code></td><td>Everything about one product</td></tr>
+    <tr><td>GET</td><td><code>/api/cart</code></td><td>My cart, with totals</td></tr>
+    <tr><td>POST</td><td><code>/api/cart/items</code></td><td>Add something to the cart</td></tr>
+    <tr><td>PATCH</td><td><code>/api/cart/items/{id}</code></td><td>Change a quantity</td></tr>
+    <tr><td>DELETE</td><td><code>/api/cart/items/{id}</code></td><td>Remove a line</td></tr>
+    <tr><td>POST</td><td><code>/api/orders/checkout</code></td><td>Turn the cart into an order</td></tr>
+    <tr><td>POST</td><td><code>/api/payments/verify</code></td><td>Confirm the payment</td></tr>
+    <tr><td>GET</td><td><code>/api/orders/{number}</code></td><td>One order plus its tracking timeline</td></tr>
+    <tr><td>POST</td><td><code>/api/reviews/product/{slug}</code></td><td>Write a review</td></tr>
+    <tr><td>POST</td><td><code>/api/contact</code></td><td>Send a message</td></tr>
+  </table>
+
+  <div class="box tip">
+    <span class="tag tipt">Demo trick</span>
+    <p style="margin:0">With the backend running, open <b>http://127.0.0.1:8000/docs</b> in a
+    browser. FastAPI generates a live, clickable page listing every endpoint, which you can
+    run right there. Showing this to a teacher is far more convincing than a slide.</p>
+  </div>
+
+  <h3>How the folders map to the API</h3>
+  <pre>backend/app/
+  models/     the database tables, as Python classes
+  schemas/    the shape of data going in and out (validation)
+  routers/    the endpoints themselves, one file per topic
+  services/   the business rules — cart totals, order timeline, payments
+  core/       settings, database connection, security, shared helpers
+  seed.py     the starting catalogue: 14 products, 6 demo users, 16 reviews</pre>
+</section>
+
+<!-- ============================================ 7 -->
+<section>
+  <div class="shead"><span class="num">07</span><h2>How the design was decided</h2></div>
+  <p class="lead">If asked "why does it look like this?", the answer is not "it looks
+  nice". Every choice comes from the subject.</p>
+
+  <h3>The colours</h3>
+  <p>Taken off a South Indian kitchen shelf rather than picked from a palette tool:</p>
+  <table>
+    <tr><th style="width:34mm">Name</th><th style="width:26mm">Colour</th><th>Where it comes from</th></tr>
+    <tr><td>Chilli</td><td><code>#e23e2e</code></td><td>Byadgi chilli, and the kumkum at a doorway</td></tr>
+    <tr><td>Turmeric</td><td><code>#f5a31a</code></td><td>Fresh-ground turmeric</td></tr>
+    <tr><td>Banana leaf</td><td><code>#1e7a54</code></td><td>The plate a South Indian meal is served on</td></tr>
+    <tr><td>Indigo</td><td><code>#4b2e83</code></td><td>Temple indigo</td></tr>
+    <tr><td>Jasmine</td><td><code>#fff6e9</code></td><td>The page background — mallige flowers</td></tr>
+    <tr><td>Lamp soot</td><td><code>#241209</code></td><td>All the text</td></tr>
+  </table>
+
+  <h3>The three signature ideas</h3>
+  <div class="grid2">
+    <div class="card"><b>Glassmorphism</b>
+      Cards are frosted glass because <em>a pickle jar is glass</em> — you shop by looking
+      through it. Not a trend pick; it comes from the product.</div>
+    <div class="card"><b>Claymorphism</b>
+      Buttons are soft and puffy with a hard bottom edge that compresses when pressed,
+      so they feel like objects you push.</div>
+    <div class="card"><b>The masala mesh</b>
+      Five spice-coloured blobs drift slowly behind the whole site. Every frosted
+      surface is showing you that, blurred.</div>
+    <div class="card"><b>Kolam</b>
+      The rice-flour pattern drawn on a South Indian doorstep every morning. Used as a
+      motif — and because it is a real dot grid, it earns its place.</div>
+  </div>
+
+  <h3>The typefaces</h3>
+  <ul class="plain">
+    <li><b>Bricolage Grotesque</b> — all headings. Modern and slightly irregular.</li>
+    <li><b>Instrument Sans</b> — body text. Quiet and very readable.</li>
+    <li><b>Baloo Thambi 2</b> — the "KaiRuchi" wordmark. Chosen because it was designed
+      alongside Tamil script, so the brand name sits in a face built for its own language.</li>
+  </ul>
+
+  <h3>The animation, and its limits</h3>
+  <p>Lenis drives all scrolling. On top of it: a loading screen that draws a kolam,
+  words that rise into place, section reveals as you scroll, magnetic buttons, cards
+  that tilt in 3D with a moving highlight, and letter-by-letter flips on the menu.</p>
+  <div class="box">
+    <span class="tag say">Say this out loud</span>
+    <p style="margin:0">"Every animation respects the operating system's
+    <b>prefers-reduced-motion</b> setting. If a visitor has asked their device to reduce
+    motion — often for motion sickness or vestibular disorders — all of it switches off
+    automatically. Accessibility was built in, not added afterwards."</p>
+  </div>
+
+  <h3>The photographs</h3>
+  <p>All 21 product and category photographs, and the hero film, were generated with
+  <b>Higgsfield</b> (Nano Banana Pro for stills, Seedance 2.5 for video). They arrived
+  as 4K PNGs totalling about <b>200 MB</b>, which would make the site unusable, so a
+  script converts them to WebP at the size they are actually displayed —
+  <b>2.6 MB for the whole set, a 99% reduction</b>.</p>
+</section>
+
+<!-- ============================================ 8 -->
+<section>
+  <div class="shead"><span class="num">08</span><h2>The payment system — read this carefully</h2></div>
+
+  <div class="box warn">
+    <span class="tag warnt">Important</span>
+    <h4>No real money moves, and no card details are ever collected.</h4>
+    <p style="margin:0">The checkout opens a payment sheet that is clearly labelled
+    <b>"Demo gateway · no real payment"</b>. It has <b>no fields for a card number, UPI ID
+    or bank login</b> — deliberately, so there is nothing to enter and nothing to leak.
+    Choosing a method and pressing pay simply tells our own backend that the order was paid.</p>
+  </div>
+
+  <h3>Why it is built this way</h3>
+  <p>Taking real payments requires a registered business with a payment provider. This
+  is a college project, so it simulates that step instead. There is also a
+  <b>"Simulate a failed payment"</b> button, so the error path can be demonstrated too —
+  not just the happy path.</p>
+
+  <h3>But the real integration is written</h3>
+  <p>The code for <b>Razorpay</b>, India's standard payment gateway, is fully written in
+  <code>backend/app/services/payment_service.py</code>: creating a gateway order, and
+  verifying the payment signature using HMAC-SHA256 so a fake confirmation cannot be
+  faked. It stays switched off unless real API keys are configured.</p>
+
+  <div class="box">
+    <span class="tag say">Say this out loud</span>
+    <p style="margin:0">"Payments run in mock mode by default. The Razorpay integration is
+    implemented, including HMAC signature verification, but it only activates when API keys
+    are supplied. That way the whole checkout flow can be demonstrated end to end without a
+    merchant account, and without ever handling card data."</p>
+  </div>
+
+  <h3>Cash on delivery</h3>
+  <p>The second payment option is genuine and needs no gateway at all — the order is
+  confirmed immediately and marked to be paid to the courier.</p>
+</section>
+
+<!-- ============================================ 9 -->
+<section>
+  <div class="shead"><span class="num">09</span><h2>Setting it up on your computer</h2></div>
+  <p class="lead">From nothing to a running website. Do these in order — each step
+  assumes the one before it worked.</p>
+
+  <h3>Step 0 — install these four things first</h3>
+  <table>
+    <tr><th style="width:34mm">Install</th><th style="width:38mm">Get it from</th><th>How to check it worked</th></tr>
+    <tr><td><b>Git</b></td><td>git-scm.com</td><td><code>git --version</code></td></tr>
+    <tr><td><b>Node.js</b> (v20+)</td><td>nodejs.org</td><td><code>node --version</code></td></tr>
+    <tr><td><b>Python 3.12</b></td><td>python.org</td><td><code>python --version</code></td></tr>
+    <tr><td><b>PostgreSQL 16</b></td><td>postgresql.org</td><td>Remember the password you set during install</td></tr>
+  </table>
+  <div class="box warn">
+    <span class="tag warnt">Watch out</span>
+    <p style="margin:0">When installing Python on Windows, tick <b>"Add Python to PATH"</b> on
+    the very first screen. If you miss it, none of the python commands below will work and
+    you will have to reinstall.</p>
+  </div>
+
+  <h3>Step 1 — get the code</h3>
+  <p>Open a terminal (on Windows: <b>Git Bash</b> or <b>PowerShell</b>) and run:</p>
+<pre><span class="c"># Download the project from GitHub</span>
+git clone https://github.com/niri2630/kai-ruchi.git
+cd kai-ruchi</pre>
+
+  <h3>Step 2 — create the database</h3>
+<pre><span class="c"># Creates an empty database called kairuchi</span>
+psql -U postgres -c "CREATE DATABASE kairuchi;"</pre>
+  <p>It will ask for the PostgreSQL password you chose during installation.</p>
+
+  <h3>Step 3 — set up the backend</h3>
+<pre>cd backend
+
+<span class="c"># A private Python environment, so this project's packages
+# do not clash with anything else on your computer</span>
+python -m venv .venv
+
+<span class="c"># Install everything the backend needs</span>
+.venv/Scripts/python -m pip install -r requirements.txt
+
+<span class="c"># Copy the settings template</span>
+cp .env.example .env</pre>
+
+  <p>Now open <code>backend/.env</code> in any text editor and make sure the database
+  line matches the password you set:</p>
+<pre>DATABASE_URL=postgresql+psycopg2://postgres:<span class="c">YOUR_PASSWORD</span>@localhost:5432/kairuchi</pre>
+
+  <p>Then build the tables and fill in the products:</p>
+<pre><span class="c"># Create all the tables (this is Alembic doing the migration)</span>
+.venv/Scripts/python -m alembic upgrade head
+
+<span class="c"># Load 14 products, 5 categories, 6 demo users and 16 reviews</span>
+.venv/Scripts/python -m app.seed</pre>
+
+  <h3>Step 4 — set up the frontend</h3>
+<pre>cd ../frontend
+
+<span class="c"># Install everything the frontend needs (takes a few minutes)</span>
+npm install
+
+<span class="c"># Copy the settings template</span>
+cp .env.example .env.local</pre>
+
+  <h3>Step 5 — run it</h3>
+  <p>You need <b>two terminals open at the same time</b>. This is the part people get
+  wrong: the backend and the frontend are two separate programs.</p>
+
+  <div class="grid2">
+    <div class="card"><b>Terminal 1 — the backend</b>
+<pre style="margin:2mm 0 0">cd backend
+.venv/Scripts/python -m uvicorn app.main:app --reload --port 8000</pre>
+      <p style="margin:2mm 0 0;font-size:9pt">Leave it running. Check: <code>127.0.0.1:8000/docs</code></p></div>
+    <div class="card"><b>Terminal 2 — the frontend</b>
+<pre style="margin:2mm 0 0">cd frontend
+npm run dev</pre>
+      <p style="margin:2mm 0 0;font-size:9pt">Leave it running. Open: <code>localhost:3000</code></p></div>
+  </div>
+
+  <div class="box tip">
+    <span class="tag tipt">Demo login</span>
+    <p style="margin:0">Email <code>meera@example.com</code>, password <code>kairuchi123</code>.
+    All six demo accounts use the same password. The sign-in page also has a
+    <b>"Fill in demo credentials"</b> button, so you do not have to type it during a demo.</p>
+  </div>
+</section>
+
+<!-- ============================================ 10 -->
+<section>
+  <div class="shead"><span class="num">10</span><h2>When something goes wrong</h2></div>
+
+  <table>
+    <tr><th style="width:62mm">What you see</th><th>What it means and how to fix it</th></tr>
+    <tr><td><b>"The kitchen isn't answering"</b> on the website</td>
+        <td>The frontend cannot reach the backend. Almost always: the backend terminal is not running. Start Terminal 1 again.</td></tr>
+    <tr><td><b>Products are missing but the site loads</b></td>
+        <td>The tables exist but are empty. Run <code>python -m app.seed</code> again.</td></tr>
+    <tr><td><code>python: command not found</code></td>
+        <td>Python is not on your PATH. Reinstall Python and tick "Add Python to PATH".</td></tr>
+    <tr><td><code>password authentication failed</code></td>
+        <td>The password in <code>backend/.env</code> does not match your PostgreSQL password.</td></tr>
+    <tr><td><code>port 3000 is already in use</code></td>
+        <td>The site is already running in another terminal. Close it, or let Next.js use port 3001.</td></tr>
+    <tr><td><b>Login stops working after a restart</b></td>
+        <td>The <code>SECRET_KEY</code> in <code>.env</code> changed, which invalidates every issued token. Just sign in again.</td></tr>
+    <tr><td><b>CORS error</b> in the browser console</td>
+        <td>The backend is refusing the frontend's address. Add that address to <code>CORS_ORIGINS</code> in <code>backend/.env</code>.</td></tr>
+  </table>
+
+  <div class="box tip">
+    <span class="tag tipt">The first thing to check, always</span>
+    <p style="margin:0">Open <b>http://127.0.0.1:8000/health</b>. If it says
+    <code>"database":"connected"</code>, the backend and database are both fine and the
+    problem is in the frontend. If it does not load at all, the backend is not running.</p>
+  </div>
+</section>
+
+<!-- ============================================ 11 -->
+<section>
+  <div class="shead"><span class="num">11</span><h2>Questions your teacher will ask</h2></div>
+  <p class="lead">Answer in your own words — but these are the points that matter.</p>
+
+  <div class="qa"><div class="q">Why did you split the frontend and backend instead of building one program?</div>
+  <div class="a">So each can be changed, tested and deployed independently, and so the rules
+  live somewhere the user cannot edit. The same backend could serve a mobile app later
+  without rewriting anything.</div></div>
+
+  <div class="qa"><div class="q">How are passwords stored?</div>
+  <div class="a">They are not. Each password is hashed with <b>bcrypt</b>, which is one-way —
+  you cannot reverse it. When someone logs in we hash what they typed and compare the
+  hashes. bcrypt also adds a random salt, so two people with the same password get
+  different stored values.</div></div>
+
+  <div class="qa"><div class="q">How does the site know I am logged in?</div>
+  <div class="a">On login the backend issues a <b>JWT</b> — a token signed with a secret key.
+  The browser stores it and sends it with every later request. The backend verifies the
+  signature. If anyone edits the token, the signature stops matching and it is rejected.</div></div>
+
+  <div class="qa"><div class="q">What is Alembic and why not just create the tables by hand?</div>
+  <div class="a">Alembic records every schema change as a file. That means the database can
+  be rebuilt identically on any machine with one command, changes can be undone, and the
+  history is in version control alongside the code. Creating tables by hand is not
+  repeatable and cannot be reviewed.</div></div>
+
+  <div class="qa"><div class="q">What stops someone changing the price in their browser and paying ₹1?</div>
+  <div class="a">The browser never sends prices. It sends product IDs and quantities. The
+  backend looks up the real price in the database and recalculates the total itself. It
+  also re-checks stock at that moment, so two people cannot buy the last jar.</div></div>
+
+  <div class="qa"><div class="q">Is the payment real?</div>
+  <div class="a">No, and that is deliberate — a real gateway needs a registered business. The
+  checkout runs a clearly-labelled simulation that collects no card details at all. The
+  Razorpay integration is written, including HMAC signature verification, and activates
+  only if API keys are supplied.</div></div>
+
+  <div class="qa"><div class="q">How does order tracking work with no admin panel?</div>
+  <div class="a">Each status change is saved as a row in <code>order_events</code>, and the
+  timeline reads that history. Because there is no staff to click the buttons, a paid
+  order advances on a timer over about 35 minutes so it can be demonstrated live.</div></div>
+
+  <div class="qa"><div class="q">How do you know a review is genuine?</div>
+  <div class="a">When a review is submitted, the backend checks whether that user has an
+  order containing that product. If so it is flagged <b>verified purchase</b>. A database
+  constraint also allows only one review per person per product.</div></div>
+
+  <div class="qa"><div class="q">Is it responsive?</div>
+  <div class="a">Yes, and it was tested by measuring the real page at 375 pixels, not by
+  eye. Two real bugs were found and fixed: form fields under 16px caused iOS Safari to
+  zoom the whole page on focus, and the quantity buttons were below the 44-pixel touch
+  target.</div></div>
+
+  <div class="qa"><div class="q">What was the hardest part?</div>
+  <div class="a">A good honest answer: making the cart work for both guests and logged-in
+  users, and merging one into the other at sign-in without losing or duplicating items.</div></div>
+
+  <div class="qa"><div class="q">What would you add next?</div>
+  <div class="a">An admin dashboard so orders and stock can be managed properly, real
+  payments, email notifications, and automated tests.</div></div>
+</section>
+
+<!-- ============================================ 12 -->
+<section>
+  <div class="shead"><span class="num">12</span><h2>Where everything lives</h2></div>
+  <p class="lead">If you are asked to open a file and show something, this is the map.</p>
+
+<pre>kai-ruchi/
+├── README.md                  overview of the whole project
+├── DEPLOYMENT.md              how to put it on the internet
+├── docs/                      this guide
+│
+├── backend/                   THE PYTHON API
+│   ├── alembic/versions/      the migration files (database history)
+│   ├── app/
+│   │   ├── core/
+│   │   │   ├── config.py      all settings, read from .env
+│   │   │   ├── database.py    the database connection
+│   │   │   ├── security.py    password hashing + JWT tokens
+│   │   │   └── deps.py        shared checks (who is logged in, whose cart)
+│   │   ├── models/            the 11 database tables as Python classes
+│   │   ├── schemas/           validation for data coming in and going out
+│   │   ├── routers/           the endpoints — auth, products, cart,
+│   │   │                      orders, payments, reviews, contact
+│   │   ├── services/          the rules — cart totals, order timeline, payments
+│   │   ├── seed.py            the starting catalogue
+│   │   └── main.py            where the app starts
+│   └── requirements.txt       the Python packages needed
+│
+└── frontend/                  THE WEBSITE
+    ├── public/
+    │   ├── images/            all 21 photographs (WebP)
+    │   └── videos/            the hero film and category films
+    └── src/
+        ├── app/               one folder per page
+        │   ├── page.tsx           home
+        │   ├── products/         listing + one page per product
+        │   ├── categories/       the five shelves
+        │   ├── cart/  checkout/  basket and payment
+        │   ├── orders/  track/   history and tracking
+        │   ├── login/  signup/  account/
+        │   └── about/  contact/
+        ├── components/
+        │   ├── layout/        navbar, footer, loading screen, smooth scroll
+        │   ├── ui/            buttons, form fields, animations, kolam
+        │   ├── product/       product cards, filters, reviews
+        │   ├── cart/          the slide-out basket
+        │   └── checkout/      the demo payment sheet
+        ├── lib/
+        │   ├── api.ts         every call to the backend, in one file
+        │   └── types.ts       the shape of the data
+        └── store/             cart and login state</pre>
+
+  <div class="box">
+    <span class="tag say">If asked "show me the code"</span>
+    <p style="margin:0">Open <code>backend/app/routers/cart.py</code> — it is short, readable,
+    and shows validation, a stock check, an error message and a database write all in one
+    place. Then open <code>frontend/src/lib/api.ts</code> to show how the frontend calls it.</p>
+  </div>
+
+  <div class="foot">
+    Kai Ruchi · full-stack e-commerce mini project<br>
+    github.com/niri2630/kai-ruchi
+  </div>
+</section>
+
+</body>
+</html>
