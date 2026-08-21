@@ -156,7 +156,7 @@ export default function ContactPage() {
                   <select
                     value={form.subject}
                     onChange={(e) => set("subject", e.target.value)}
-                    className="clay-inset w-full cursor-pointer appearance-none rounded-2xl px-4 py-3 text-[0.9375rem] outline-none"
+                    className="clay-inset w-full cursor-pointer appearance-none rounded-2xl px-4 py-3 text-base outline-none sm:text-[0.9375rem]"
                   >
                     {SUBJECTS.map((subject) => (
                       <option key={subject}>{subject}</option>

@@ -5,12 +5,9 @@ import { use, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ChevronRight,
-  Clock,
-  Leaf,
   Loader2,
   ShoppingBag,
   Sparkles,
-  Truck,
 } from "lucide-react";
 import { api } from "@/lib/api";
 import { useApi } from "@/lib/useApi";
@@ -21,7 +18,6 @@ import { Button } from "@/components/ui/Button";
 import { ErrorState } from "@/components/ui/States";
 import { Reveal } from "@/components/ui/Reveal";
 import { Parallax } from "@/components/ui/Scroll";
-import { KolamDivider } from "@/components/ui/Kolam";
 import ProductCard from "@/components/product/ProductCard";
 import Reviews from "@/components/product/Reviews";
 
@@ -254,24 +250,6 @@ export default function ProductPage({
             )}
           </Reveal>
 
-          {/* Three promises, each true of this specific product */}
-          <Reveal delay={0.15} className="mt-5 grid gap-3 sm:grid-cols-3">
-            {[
-              { icon: Truck, title: "Free over ₹799", body: "Ships in 24 hours" },
-              { icon: Leaf, title: "No preservatives", body: "Nothing but the list" },
-              { icon: Clock, title: p.shelf_life?.split(",")[0] ?? "Fresh", body: "Dated by hand" },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="rounded-2xl border border-hairline/70 bg-white/45 p-4"
-              >
-                <item.icon className="size-4 text-leaf" />
-                <p className="mt-2 text-sm font-bold leading-tight">{item.title}</p>
-                <p className="text-xs text-ash">{item.body}</p>
-              </div>
-            ))}
-          </Reveal>
-
           {/* Tabs */}
           <Reveal delay={0.2} className="mt-8">
             <div className="flex gap-1 border-b border-hairline">
@@ -324,8 +302,6 @@ export default function ProductPage({
       <div className="mx-auto max-w-6xl px-6">
         <Reviews slug={slug} />
       </div>
-
-      <KolamDivider className="py-20" />
 
       {/* ---------------------------------------------------------- related */}
       {(related.data?.length ?? 0) > 0 && (

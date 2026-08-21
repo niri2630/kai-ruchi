@@ -7,7 +7,10 @@ import { api } from "@/lib/api";
 import { useApi } from "@/lib/useApi";
 import { accentOf } from "@/lib/utils";
 import ProductCard from "@/components/product/ProductCard";
-import { ProductCardSkeleton } from "@/components/ui/Bits";
+import { ProductCardSkeleton, ProductImage } from "@/components/ui/Bits";
+
+/** Shelves we have footage for. The rest fall back to their still image. */
+const SHELF_FILMS = new Set(["pickles", "fresh-batters", "snacks", "sweets"]);
 import { EmptyState, ErrorState } from "@/components/ui/States";
 import { Stagger, StaggerItem, WordsIn } from "@/components/ui/Reveal";
 import { Parallax } from "@/components/ui/Scroll";
@@ -37,11 +40,47 @@ export default function CategoryPage({
 
   return (
     <>
-      {/* Full-bleed masthead in the shelf's own colour. */}
+      {/* Full-bleed masthead: the shelf's own footage under its own colour. */}
       <header
-        className="relative overflow-hidden px-6 pb-20 pt-36 sm:pb-28 sm:pt-44"
+        className="relative overflow-hidden px-5 pb-16 pt-32 sm:px-6 sm:pb-28 sm:pt-44"
         style={{ background: `linear-gradient(150deg, ${tone.hex}, ${tone.deep})` }}
       >
+        {/* Four shelves have a film; masalas falls back to its still. Either
+            way the colour wash on top keeps the type readable. */}
+        {SHELF_FILMS.has(slug) ? (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden
+            className="absolute inset-0 size-full object-cover"
+          >
+            <source src={`/videos/${slug}.mp4`} type="video/mp4" />
+          </video>
+        ) : (
+          category.data?.image_url && (
+            <span aria-hidden className="absolute inset-0">
+              <ProductImage
+                src={category.data.image_url}
+                alt=""
+                accent={category.data.accent}
+                sizes="100vw"
+                priority
+              />
+            </span>
+          )
+        )}
+
+        <span
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(150deg, ${tone.hex}d9, ${tone.deep}f2)`,
+          }}
+        />
+
         <Parallax speed={0.3} className="pointer-events-none absolute inset-0">
           <div
             aria-hidden

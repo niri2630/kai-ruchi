@@ -28,8 +28,10 @@ export function Field({
   );
 }
 
+// 16px on touch: iOS Safari auto-zooms the whole page when a focused field
+// is under 16px, which reads as the layout jumping. 15px from sm up.
 const base =
-  "clay-inset w-full rounded-2xl px-4 py-3 text-[0.9375rem] outline-none placeholder:text-ash/70";
+  "clay-inset w-full rounded-2xl px-4 py-3 text-base outline-none placeholder:text-ash/70 sm:text-[0.9375rem]";
 
 export function Input({ className, ...rest }: InputHTMLAttributes<HTMLInputElement>) {
   return <input className={cn(base, className)} {...rest} />;

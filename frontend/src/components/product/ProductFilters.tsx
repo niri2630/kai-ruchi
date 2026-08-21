@@ -117,7 +117,7 @@ export default function ProductFilters({
           <select
             value={filters.sort}
             onChange={(event) => set("sort", event.target.value as Filters["sort"])}
-            className="clay-inset cursor-pointer rounded-full px-4 py-2 text-sm font-semibold outline-none"
+            className="clay-inset cursor-pointer rounded-full px-4 py-2.5 text-base font-semibold outline-none sm:py-2 sm:text-sm"
           >
             {SORTS.map((option) => (
               <option key={option.value} value={option.value}>

@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
 import { WordsIn } from "@/components/ui/Reveal";
 import { Magnetic } from "@/components/ui/Hover";
@@ -191,23 +190,6 @@ export default function Hero() {
         </motion.dl>
       </motion.div>
 
-      {/* --- Scroll cue, tucked into the corner rather than centred ------- */}
-      <motion.a
-        href="#pantry"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8 }}
-        className="absolute bottom-8 right-6 z-10 hidden items-center gap-2.5 text-mallige/50 transition hover:text-mallige lg:flex"
-        aria-label="Scroll to the pantry"
-      >
-        <span className="eyebrow text-[0.625rem]">Scroll</span>
-        <motion.span
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.9, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ArrowDown className="size-4" />
-        </motion.span>
-      </motion.a>
     </section>
   );
 }

@@ -9,13 +9,7 @@ import { ProductImage, Stars } from "@/components/ui/Bits";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { UnderlineLink, WipeHover } from "@/components/ui/Hover";
 import { KolamMark } from "@/components/ui/Kolam";
-import {
-  CountUp,
-  Parallax,
-  ScrollWordReveal,
-  StickyCard,
-  VelocityMarquee,
-} from "@/components/ui/Scroll";
+import { Parallax, ScrollWordReveal, StickyCard } from "@/components/ui/Scroll";
 import ProductCard from "@/components/product/ProductCard";
 
 /* ============================================================= section head */
@@ -63,32 +57,6 @@ export function SectionHead({
         </UnderlineLink>
       )}
     </Reveal>
-  );
-}
-
-/* ================================================================== ticker */
-
-export function TickerBand({ products }: { products: Product[] }) {
-  const names = products.length
-    ? products.map((p) => p.name)
-    : ["Sukka Masala", "Mango Pickle", "Dosa Batter", "Mysore Pak", "Chakli", "Papad"];
-
-  return (
-    <div className="border-y border-kaadige/10 bg-kaadige py-5 text-mallige">
-      <VelocityMarquee baseVelocity={2.4}>
-        <span className="flex items-center gap-8 pr-8 font-display text-2xl font-extrabold uppercase tracking-tight sm:text-3xl">
-          {names.map((name, i) => (
-            <span key={`${name}-${i}`} className="flex items-center gap-8 whitespace-nowrap">
-              {name}
-              <KolamMark
-                size={18}
-                className={i % 2 === 0 ? "text-turmeric" : "text-chilli"}
-              />
-            </span>
-          ))}
-        </span>
-      </VelocityMarquee>
-    </div>
   );
 }
 
@@ -266,20 +234,6 @@ export function PromiseBand() {
           className="font-display text-[clamp(1.75rem,4.2vw,3.25rem)] font-extrabold leading-[1.12] tracking-tight"
         />
 
-        <div className="mt-16 grid gap-8 border-t border-mallige/15 pt-10 sm:grid-cols-3">
-          {[
-            { n: 21, suffix: " days", label: "Mango cured on the terrace" },
-            { n: 4, suffix: "", label: "Suppliers, same since day one" },
-            { n: 0, suffix: "", label: "Preservatives, in anything" },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <p className="font-display text-5xl font-extrabold tracking-tight text-turmeric sm:text-6xl">
-                <CountUp to={stat.n} suffix={stat.suffix} />
-              </p>
-              <p className="mt-2 text-sm text-mallige/65">{stat.label}</p>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );

@@ -104,7 +104,7 @@ export default function SearchOverlay({
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search masalas, pickles, batter…"
-                className="min-w-0 flex-1 bg-transparent font-display text-2xl font-bold tracking-tight outline-none placeholder:text-kaadige/30"
+                className="min-w-0 flex-1 bg-transparent font-display text-xl font-bold tracking-tight outline-none placeholder:text-kaadige/30 sm:text-2xl"
               />
               {busy && <Loader2 className="size-4 animate-spin text-kaadige/40" />}
               <button

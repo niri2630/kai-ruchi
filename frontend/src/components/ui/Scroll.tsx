@@ -301,6 +301,70 @@ export function HorizontalRail({
   );
 }
 
+/* =========================================================== TrackingText ===
+   Letter-spacing opens out as the line rises through the viewport. A purely
+   typographic move — the word itself performs rather than sliding around.
+   ========================================================================= */
+
+export function TrackingText({
+  children,
+  className,
+  from = -0.06,
+  to = 0.02,
+}: {
+  children: ReactNode;
+  className?: string;
+  from?: number;
+  to?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const tracking = useTransform(scrollYProgress, [0, 1], [`${from}em`, `${to}em`]);
+  const smooth = useSpring(tracking, { stiffness: 90, damping: 24 });
+
+  return (
+    <div ref={ref} className={className}>
+      <motion.div style={{ letterSpacing: smooth }}>{children}</motion.div>
+    </div>
+  );
+}
+
+/* ============================================================= ScrollWipe ===
+   A block of colour that retreats across the element as it enters view,
+   uncovering what is underneath. Used once, over the kitchen photograph.
+   ========================================================================= */
+
+export function ScrollWipe({
+  children,
+  className,
+  color = "var(--color-kaadige)",
+}: {
+  children: ReactNode;
+  className?: string;
+  color?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.9", "center 0.6"],
+  });
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "101%"]);
+
+  return (
+    <div ref={ref} className={cn("relative overflow-hidden", className)}>
+      {children}
+      <motion.span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-10"
+        style={{ background: color, x }}
+      />
+    </div>
+  );
+}
+
 /* ================================================================ CountUp ===
    Counts to a number the first time it is seen. Only used for figures that
    are actually true of the business.

@@ -237,7 +237,7 @@ export default function Reviews({ slug }: { slug: string }) {
                       placeholder="How did it cook? What did you make with it?"
                       rows={4}
                       maxLength={2000}
-                      className="w-full resize-none bg-transparent text-sm outline-none placeholder:text-ash"
+                      className="w-full resize-none bg-transparent text-base outline-none placeholder:text-ash sm:text-sm"
                     />
                   </div>
                   <div className="flex justify-end gap-3">

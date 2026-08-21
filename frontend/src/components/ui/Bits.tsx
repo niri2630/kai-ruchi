@@ -188,7 +188,7 @@ export function QtyStepper({
         whileTap={{ scale: 0.82 }}
         whileHover={atMin ? undefined : { scale: 1.12 }}
         transition={{ type: "spring", stiffness: 480, damping: 17 }}
-        className="grid size-8 place-items-center rounded-full text-kaadige transition-colors hover:bg-kaadige/12 disabled:opacity-30"
+        className="grid size-10 place-items-center rounded-full text-kaadige transition-colors hover:bg-kaadige/12 disabled:opacity-30 sm:size-8"
       >
         <Minus className="size-4" />
       </motion.button>
@@ -226,7 +226,7 @@ export function QtyStepper({
         whileTap={{ scale: 0.82 }}
         whileHover={atMax ? undefined : { scale: 1.12 }}
         transition={{ type: "spring", stiffness: 480, damping: 17 }}
-        className="grid size-8 place-items-center rounded-full text-kaadige transition-colors hover:bg-kaadige/12 disabled:opacity-30"
+        className="grid size-10 place-items-center rounded-full text-kaadige transition-colors hover:bg-kaadige/12 disabled:opacity-30 sm:size-8"
       >
         <Plus className="size-4" />
       </motion.button>

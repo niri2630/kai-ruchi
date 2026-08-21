@@ -3,7 +3,6 @@
 import { api } from "@/lib/api";
 import { useApi } from "@/lib/useApi";
 import Hero from "@/components/home/Hero";
-import KitchenClock from "@/components/home/KitchenClock";
 import {
   BestsellerGrid,
   CategoryTiles,
@@ -13,9 +12,7 @@ import {
   PromiseBand,
   SectionHead,
   Testimonials,
-  TickerBand,
 } from "@/components/home/Sections";
-import { KolamDivider } from "@/components/ui/Kolam";
 import { ProductCardSkeleton } from "@/components/ui/Bits";
 import { ErrorState } from "@/components/ui/States";
 
@@ -33,8 +30,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-
-      <TickerBand products={featured.data?.items ?? []} />
 
       {offline ? (
         <section className="px-6 py-24">
@@ -61,13 +56,6 @@ export default function HomePage() {
               <CategoryTiles categories={categories.data ?? []} />
             )}
           </section>
-
-          {/* ------------------------------------------------ kitchen clock */}
-          <section className="mx-auto max-w-6xl px-6 pb-8 pt-8">
-            <KitchenClock />
-          </section>
-
-          <KolamDivider />
 
           {/* --------------------------------------------------- bestsellers */}
           <section className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
@@ -110,8 +98,6 @@ export default function HomePage() {
             />
             <FreshBatch products={newest.data?.items ?? []} />
           </section>
-
-          <KolamDivider />
 
           {/* ------------------------------------------------------ promise */}
           <section className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
