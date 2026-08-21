@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Loader2, Plus } from "lucide-react";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, Loader2, Plus } from "lucide-react";
 import { useCart } from "@/store/useCart";
 import type { Product } from "@/lib/types";
 import { accentOf, cn, discountPercent, money } from "@/lib/utils";
@@ -20,6 +21,7 @@ export default function ProductCard({
 }) {
   const add = useCart((s) => s.add);
   const pending = useCart((s) => s.pending.has(product.id));
+  const [justAdded, setJustAdded] = useState(false);
 
   const tone = accentOf(product.category.accent);
   const off = discountPercent(product.price, product.compare_at_price);
@@ -116,23 +118,60 @@ export default function ProductCard({
               </p>
             </div>
 
-            <button
-              onClick={() => add(product.id, 1, product.name)}
+            {/* Press, spin, then flash a tick — the button confirms itself
+                rather than relying on the toast alone. */}
+            <motion.button
+              onClick={async () => {
+                await add(product.id, 1, product.name);
+                setJustAdded(true);
+                setTimeout(() => setJustAdded(false), 1400);
+              }}
               disabled={soldOut || pending}
               aria-label={soldOut ? `${product.name} is out of stock` : `Add ${product.name} to cart`}
+              whileTap={soldOut ? undefined : { scale: 0.86 }}
+              transition={{ type: "spring", stiffness: 500, damping: 18 }}
               className={cn(
-                "clay grid size-11 shrink-0 place-items-center text-white transition-transform",
+                "clay grid size-11 shrink-0 place-items-center overflow-hidden text-white",
                 soldOut
                   ? "cursor-not-allowed bg-ash [--clay-edge:#5a4a3d]"
-                  : "bg-leaf [--clay-edge:var(--color-leaf-deep)]",
+                  : justAdded
+                    ? "bg-kaadige [--clay-edge:#000]"
+                    : "bg-leaf [--clay-edge:var(--color-leaf-deep)]",
               )}
             >
-              {pending ? (
-                <Loader2 className="size-5 animate-spin" />
-              ) : (
-                <Plus className="size-5" />
-              )}
-            </button>
+              <AnimatePresence mode="popLayout" initial={false}>
+                {pending ? (
+                  <motion.span
+                    key="busy"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.5 }}
+                  >
+                    <Loader2 className="size-5 animate-spin" />
+                  </motion.span>
+                ) : justAdded ? (
+                  <motion.span
+                    key="done"
+                    initial={{ opacity: 0, scale: 0.3, rotate: -40 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    exit={{ opacity: 0, scale: 0.3 }}
+                    transition={{ type: "spring", stiffness: 520, damping: 15 }}
+                  >
+                    <Check className="size-5" strokeWidth={3} />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="add"
+                    initial={{ opacity: 0, scale: 0.5, rotate: 90 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    exit={{ opacity: 0, scale: 0.5, rotate: -90 }}
+                    transition={{ type: "spring", stiffness: 420, damping: 20 }}
+                  >
+                    <Plus className="size-5" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
           </div>
         </div>
       </article>

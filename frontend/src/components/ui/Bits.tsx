@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Flame, Leaf, Minus, Plus, Star } from "lucide-react";
 import { cn, accentOf, initials, SPICE_LABELS } from "@/lib/utils";
 
@@ -143,6 +144,10 @@ export function Pill({
 
 /* -------------------------------------------------------------- qty steps -- */
 
+/**
+ * The number rolls in the direction you pushed it — up when you add, down when
+ * you take away — so the control tells you what it just did without a label.
+ */
 export function QtyStepper({
   value,
   onChange,
@@ -156,33 +161,76 @@ export function QtyStepper({
   min?: number;
   className?: string;
 }) {
+  const [direction, setDirection] = useState(1);
+  const atMin = value <= min;
+  const atMax = value >= max;
+
+  const step = (delta: number) => {
+    const next = Math.min(max, Math.max(min, value + delta));
+    if (next === value) return;
+    setDirection(delta);
+    onChange(next);
+  };
+
   return (
-    <div
-      className={cn(
-        "clay-inset inline-flex items-center rounded-full p-1",
-        className,
-      )}
+    <motion.div
+      className={cn("clay-inset inline-flex items-center rounded-full p-1", className)}
+      // A small settle on every change, so the whole control feels physical.
+      animate={{ scale: [1, 1.05, 1] }}
+      key={`shell-${value}`}
+      transition={{ duration: 0.32, ease: [0.34, 1.56, 0.64, 1] }}
     >
-      <button
+      <motion.button
         type="button"
-        onClick={() => onChange(Math.max(min, value - 1))}
-        disabled={value <= min}
+        onClick={() => step(-1)}
+        disabled={atMin}
         aria-label="Reduce quantity"
-        className="grid size-8 place-items-center rounded-full text-kaadige transition hover:bg-kaadige/10 disabled:opacity-35"
+        whileTap={{ scale: 0.82 }}
+        whileHover={atMin ? undefined : { scale: 1.12 }}
+        transition={{ type: "spring", stiffness: 480, damping: 17 }}
+        className="grid size-8 place-items-center rounded-full text-kaadige transition-colors hover:bg-kaadige/12 disabled:opacity-30"
       >
         <Minus className="size-4" />
-      </button>
-      <span className="tabular w-9 text-center text-sm font-bold">{value}</span>
-      <button
+      </motion.button>
+
+      <span
+        className="relative h-6 w-9 overflow-hidden"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <AnimatePresence mode="popLayout" initial={false} custom={direction}>
+          <motion.span
+            key={value}
+            custom={direction}
+            variants={{
+              enter: (d: number) => ({ y: d > 0 ? 24 : -24, opacity: 0 }),
+              center: { y: 0, opacity: 1 },
+              exit: (d: number) => ({ y: d > 0 ? -24 : 24, opacity: 0 }),
+            }}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ type: "spring", stiffness: 460, damping: 32 }}
+            className="tabular absolute inset-0 grid place-items-center text-sm font-bold leading-none"
+          >
+            {value}
+          </motion.span>
+        </AnimatePresence>
+      </span>
+
+      <motion.button
         type="button"
-        onClick={() => onChange(Math.min(max, value + 1))}
-        disabled={value >= max}
+        onClick={() => step(1)}
+        disabled={atMax}
         aria-label="Increase quantity"
-        className="grid size-8 place-items-center rounded-full text-kaadige transition hover:bg-kaadige/10 disabled:opacity-35"
+        whileTap={{ scale: 0.82 }}
+        whileHover={atMax ? undefined : { scale: 1.12 }}
+        transition={{ type: "spring", stiffness: 480, damping: 17 }}
+        className="grid size-8 place-items-center rounded-full text-kaadige transition-colors hover:bg-kaadige/12 disabled:opacity-30"
       >
         <Plus className="size-4" />
-      </button>
-    </div>
+      </motion.button>
+    </motion.div>
   );
 }
 
