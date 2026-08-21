@@ -42,3 +42,6 @@ yarn-error.log*
 # --- Generated image masters (the committed .webp are the web versions) ---
 frontend/public/images/**/*.png
 !frontend/public/images/**/hero-poster.jpg
+
+# Stray empty repo created by a tool run
+Kai Ruchi/
